@@ -1,9 +1,9 @@
 "use client";
 
-import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 type EventsChartProps = {
-    data: Array<{ timestamp: string; total: number; [key: string]: any }>;
+    data: Array<{ timestamp: string; total: number; [key: string]: unknown }>;
     loading?: boolean;
 };
 

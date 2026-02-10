@@ -19,7 +19,7 @@ type AnalyticsStats = {
 };
 
 type AnalyticsTimeline = {
-    timeline: Array<{ timestamp: string; total: number; [key: string]: any }>;
+    timeline: Array<{ timestamp: string; total: number; [key: string]: unknown }>;
     timeRange: string;
     groupBy: string;
 };

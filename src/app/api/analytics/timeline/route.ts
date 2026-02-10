@@ -81,8 +81,8 @@ export async function GET(req: Request) {
         }));
 
         return NextResponse.json({ timeline, timeRange, groupBy });
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("Unexpected error GET /api/analytics/timeline:", error);
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 }

@@ -16,7 +16,7 @@ export default function ProjectChat({ projectId }: ProjectChatProps) {
     const user = useAuthStore((s) => s.user);
     const queryClient = useQueryClient();
     const [message, setMessage] = useState("");
-    const [isConnected, setIsConnected] = useState(false);
+    const [isConnected, setIsConnected] = useState(socket.connected);
     const scrollRef = useRef<HTMLDivElement>(null);
 
     // 1. Fetch existing comments
@@ -41,9 +41,6 @@ export default function ProjectChat({ projectId }: ProjectChatProps) {
         // Initialize connection
         if (!socket.connected) {
             socket.connect();
-        } else {
-             // If already connected, sync state
-            setIsConnected(true);
         }
         
         socket.emit("join-project", projectId);

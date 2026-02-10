@@ -47,7 +47,7 @@ export default function LoginPage() {
                 trackEvent({ name: 'user_login', properties: { method: 'email' } });
                 router.push("/dashboard");
             }
-        } catch (err: any) {
+        } catch {
             setError("An unexpected error occurred.");
         } finally {
             setLoading(false);

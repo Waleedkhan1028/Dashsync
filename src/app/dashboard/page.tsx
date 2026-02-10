@@ -2,10 +2,9 @@
 
 import { useAuthStore } from "@/stores/auth.store";
 import { Project } from "@/types/database";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import Modal from "@/components/ui/Modal";
 import SearchBar from "@/components/ui/SearchBar";
 import DeleteConfirmationModal from "@/components/ui/DeleteConfirmationModal";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -20,7 +19,6 @@ import { CreateProjectModal } from "@/components/dashboard/modals/CreateProjectM
 import { EditProjectModal } from "@/components/dashboard/modals/EditProjectModal";
 
 export default function DashboardPage() {
-    const user = useAuthStore((s) => s.user);
     const authLoading = useAuthStore((s) => s.isLoading);
     const router = useRouter();
     const pathname = usePathname();
@@ -61,10 +59,6 @@ export default function DashboardPage() {
     } = useProjects(selectedWorkspaceId);
 
     const currentWorkspace = workspaces?.find(w => w.id === selectedWorkspaceId);
-
-    useEffect(() => {
-        if (showNewWsModal) setIsWsModalOpen(true);
-    }, [showNewWsModal]);
 
     // Filter projects based on search
     const filteredProjects = useMemo(() => {
@@ -117,7 +111,7 @@ export default function DashboardPage() {
                 <div className="w-20 h-20 bg-red-50 text-red-600 rounded-3xl flex items-center justify-center text-4xl mb-6 shadow-sm">⚠️</div>
                 <h2 className="text-3xl font-black text-gray-900 mb-3 tracking-tight">Failed to load workspaces</h2>
                 <p className="text-gray-600 mb-8 leading-relaxed font-medium">
-                    {(wsError as any).message || "An unexpected error occurred. Please check your connection or try again."}
+                    {(wsError as Error).message || "An unexpected error occurred. Please check your connection or try again."}
                 </p>
                 <button
                     onClick={() => window.location.reload()}
@@ -156,7 +150,7 @@ export default function DashboardPage() {
 
                 <AnimatePresence>
                     <CreateWorkspaceModal
-                        isOpen={isWsModalOpen}
+                        isOpen={isWsModalOpen || showNewWsModal}
                         onClose={closeWsModal}
                         onSubmit={handleCreateWorkspace}
                         isLoading={isCreatingWs}
@@ -219,7 +213,7 @@ export default function DashboardPage() {
                 />
 
                 <CreateWorkspaceModal
-                    isOpen={isWsModalOpen}
+                    isOpen={isWsModalOpen || showNewWsModal}
                     onClose={closeWsModal}
                     onSubmit={handleCreateWorkspace}
                     isLoading={isCreatingWs}

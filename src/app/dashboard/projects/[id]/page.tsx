@@ -7,7 +7,6 @@ import { Project, Task } from "@/types/database";
 import { useParams, useRouter } from "next/navigation";
 import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import ProjectChat from "@/components/ProjectChat";
 import ChatWidget from "@/components/ChatWidget";
 import TaskCard from "@/components/TaskCard";
 import SearchBar from "@/components/ui/SearchBar";
@@ -85,7 +84,7 @@ export default function ProjectPage() {
             trackEvent({ name: 'task_created', properties: { taskId: data.id, projectId } });
             showToast("Task created successfully", "success");
         },
-        onError: (error: any) => {
+        onError: (error: Error) => {
             showToast(error.message || "Failed to create task", "error");
         }
     });
@@ -104,7 +103,7 @@ export default function ProjectPage() {
             trackEvent({ name: 'task_updated', properties: { taskId: data.id, projectId } });
             showToast("Task updated", "success");
         },
-        onError: (error: any) => {
+        onError: (error: Error) => {
             showToast(error.message || "Failed to update task", "error");
         }
     });
@@ -119,7 +118,7 @@ export default function ProjectPage() {
             trackEvent({ name: 'task_deleted', properties: { taskId: id, projectId } });
             showToast("Task deleted", "success");
         },
-        onError: (error: any) => {
+        onError: (error: Error) => {
             console.error("Delete task failed:", error);
             showToast(error.message || "Failed to delete task. Please try again.", "error");
         }
@@ -323,7 +322,7 @@ export default function ProjectPage() {
                                 autoFocus
                             />
                             {editTaskErrors.title && <p className="text-red-500 text-sm mb-4 font-bold px-1">{editTaskErrors.title.message as string}</p>}
-                            {updateTaskMutation.error && <p className="text-red-500 text-sm mb-4 font-bold px-1">{(updateTaskMutation.error as any).message}</p>}
+                            {updateTaskMutation.error && <p className="text-red-500 text-sm mb-4 font-bold px-1">{(updateTaskMutation.error as Error).message}</p>}
                             <div className="flex gap-4 mt-6">
                                 <button type="button" onClick={() => setEditingTask(null)} className="flex-1 py-4 px-6 rounded-2xl border border-gray-100 text-gray-600 font-bold hover:bg-gray-50 transition-colors">Cancel</button>
                                 <button

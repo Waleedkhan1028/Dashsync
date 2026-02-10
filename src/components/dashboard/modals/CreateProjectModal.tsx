@@ -13,7 +13,7 @@ interface CreateProjectModalProps {
     onClose: () => void;
     onSubmit: (projectName: string) => Promise<void>;
     isLoading: boolean;
-    error: any;
+    error: Error | null;
     workspaceName?: string;
 }
 

@@ -6,7 +6,7 @@ import { useAuthStore } from "@/stores/auth.store";
 import { useQuery } from "@tanstack/react-query";
 import { fetcher } from "@/lib/fetcher";
 import { Workspace } from "@/types/database";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
 function DashboardLayoutContent({ children }: { children: ReactNode }) {
@@ -14,7 +14,6 @@ function DashboardLayoutContent({ children }: { children: ReactNode }) {
     const toggleSidebar = useUIStore((s) => s.toggleSidebar);
     const user = useAuthStore((s) => s.user);
     const router = useRouter();
-    const pathname = usePathname();
     const searchParams = useSearchParams();
     const selectedWorkspaceId = searchParams.get("workspaceId");
 

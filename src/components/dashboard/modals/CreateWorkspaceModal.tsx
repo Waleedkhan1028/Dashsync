@@ -13,7 +13,7 @@ interface CreateWorkspaceModalProps {
     onClose: () => void;
     onSubmit: (workspaceName: string) => Promise<void>;
     isLoading: boolean;
-    error: any;
+    error: Error | null;
 }
 
 export function CreateWorkspaceModal({ isOpen, onClose, onSubmit, isLoading, error }: CreateWorkspaceModalProps) {

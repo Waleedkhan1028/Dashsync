@@ -22,9 +22,9 @@ export async function GET(
             return NextResponse.json({ error: error.message }, { status: 500 });
         }
         return NextResponse.json(data);
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("Unexpected error GET project:", error);
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 }
 
@@ -51,9 +51,9 @@ export async function PATCH(
             return NextResponse.json({ error: error.message }, { status: 500 });
         }
         return NextResponse.json(data);
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("Unexpected error PATCH project:", error);
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 }
 
@@ -91,8 +91,8 @@ export async function DELETE(
             return NextResponse.json({ error: error.message }, { status: 500 });
         }
         return NextResponse.json({ success: true });
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("Unexpected error DELETE project:", error);
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 }

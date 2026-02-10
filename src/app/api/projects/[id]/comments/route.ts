@@ -65,10 +65,10 @@ export async function POST(
         };
 
         return NextResponse.json(result);
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("Unexpected error in POST /api/projects/[id]/comments:", error);
         return NextResponse.json(
-            { error: "Internal Server Error", details: error.message },
+            { error: "Internal Server Error", details: (error as Error).message },
             { status: 500 }
         );
     }

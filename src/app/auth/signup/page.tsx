@@ -52,7 +52,7 @@ export default function SignupPage() {
                 trackEvent({ name: 'user_signup', properties: { method: 'email' } });
                 router.push("/dashboard");
             }
-        } catch (err: any) {
+        } catch {
             setError("An unexpected error occurred.");
         } finally {
             setLoading(false);
