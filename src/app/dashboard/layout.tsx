@@ -34,7 +34,7 @@ function DashboardLayoutContent({ children }: { children: ReactNode }) {
     };
 
     return (
-        <div className="flex min-h-screen bg-[#F9FAFB]">
+        <div className="flex min-h-screen bg-gray-50/50">
             {/* Mobile Backdrop Overlay */}
             <AnimatePresence>
                 {isSidebarOpen && (
@@ -43,7 +43,7 @@ function DashboardLayoutContent({ children }: { children: ReactNode }) {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={toggleSidebar}
-                        className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+                        className="fixed inset-0 bg-gray-950/40 backdrop-blur-sm z-40 lg:hidden"
                     />
                 )}
             </AnimatePresence>
@@ -52,36 +52,36 @@ function DashboardLayoutContent({ children }: { children: ReactNode }) {
             <AnimatePresence mode="wait">
                 {isSidebarOpen && (
                     <motion.aside
-                        initial={{ x: -260 }}
+                        initial={{ x: -280 }}
                         animate={{ x: 0 }}
-                        exit={{ x: -260 }}
-                        transition={{ type: "spring", damping: 24, stiffness: 180 }}
-                        className="fixed lg:relative w-[250px] h-screen bg-gray-900 text-white flex flex-col border-r border-gray-800/50 z-50 shadow-2xl"
+                        exit={{ x: -280 }}
+                        transition={{ type: "spring", damping: 28, stiffness: 200 }}
+                        className="fixed lg:relative w-[280px] h-screen bg-gray-950 text-white flex flex-col border-r border-white/5 z-50 shadow-2xl"
                     >
-                        <div className="p-4 border-b border-gray-800/50 flex items-center gap-3">
-                            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/20">
+                        <div className="p-6 border-b border-white/5 flex items-center gap-3">
+                            <div className="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center font-black text-white shadow-lg shadow-blue-500/20">
                                 D
                             </div>
-                            <h2 className="text-sm font-bold tracking-tight text-white">
+                            <h2 className="text-lg font-black tracking-tight text-white font-sans">
                                 DashSync
                             </h2>
                         </div>
 
-                        <div className="p-3 flex-1 overflow-y-auto">
-                            <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-3 px-2 mt-2">
+                        <div className="p-4 flex-1 overflow-y-auto">
+                            <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-4 px-3 mt-2">
                                 Workspaces
                             </p>
-                            <ul className="flex flex-col gap-0.5 list-none p-0">
+                            <ul className="flex flex-col gap-1 list-none p-0">
                                 {workspaces?.map((ws) => (
                                     <li key={ws.id}>
                                         <button
                                             onClick={() => handleWorkspaceChange(ws.id)}
-                                            className={`w-full text-left px-3 py-2 rounded-md text-[13px] font-medium transition-all duration-200 flex items-center gap-3 ${selectedWorkspaceId === ws.id
-                                                ? "bg-gray-800 text-white shadow-sm ring-1 ring-white/10"
-                                                : "text-gray-400 hover:bg-gray-800/50 hover:text-gray-200"
+                                            className={`w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-all duration-200 flex items-center gap-3 ${selectedWorkspaceId === ws.id
+                                                ? "bg-white/10 text-white shadow-sm ring-1 ring-white/10"
+                                                : "text-gray-400 hover:bg-white/5 hover:text-gray-200"
                                                 }`}
                                         >
-                                            <span className="text-gray-500">#</span>
+                                            <span className="text-gray-600 font-black">#</span>
                                             <span className="truncate">{ws.name}</span>
                                         </button>
                                     </li>
@@ -93,35 +93,35 @@ function DashboardLayoutContent({ children }: { children: ReactNode }) {
                                             params.set("newWorkspace", "true");
                                             router.push(`/dashboard?${params.toString()}`);
                                         }}
-                                        className="w-full text-left px-3 py-2 rounded-md text-[12px] font-medium text-gray-500 border border-dashed border-gray-700/50 mt-3 hover:bg-gray-800/50 hover:text-gray-300 transition-all duration-200 flex items-center gap-2 group"
+                                        className="w-full text-left px-4 py-3 rounded-xl text-[12px] font-bold text-gray-500 border border-dashed border-white/10 mt-4 hover:bg-white/5 hover:text-gray-300 transition-all duration-200 flex items-center gap-2 group"
                                     >
-                                        <span className="w-4 h-4 rounded-full border border-gray-600 flex items-center justify-center text-[10px] group-hover:border-gray-400">+</span>
+                                        <span className="w-5 h-5 rounded-full border border-gray-700 flex items-center justify-center text-xs group-hover:border-gray-500">+</span>
                                         Add Workspace
                                     </button>
                                 </li>
                             </ul>
                         </div>
 
-                        <nav className="p-3 border-t border-gray-800/50">
-                            <ul className="flex flex-col gap-0.5 list-none p-0">
-                                <li onClick={() => router.push("/dashboard/analytics")} className="text-gray-400 text-[13px] font-medium px-3 py-2 hover:bg-gray-800/50 hover:text-white rounded-md cursor-pointer transition-colors flex items-center gap-3">
-                                    <span className="opacity-70">📊</span> Analytics
+                        <nav className="p-4 border-t border-white/5">
+                            <ul className="flex flex-col gap-1 list-none p-0">
+                                <li onClick={() => router.push("/dashboard/analytics")} className="text-gray-400 text-sm font-bold px-4 py-3 hover:bg-white/5 hover:text-white rounded-xl cursor-pointer transition-colors flex items-center gap-3">
+                                    <span className="opacity-70 text-lg">📊</span> Analytics
                                 </li>
-                                <li className="text-gray-400 text-[13px] font-medium px-3 py-2 hover:bg-gray-800/50 hover:text-white rounded-md cursor-pointer transition-colors flex items-center gap-3">
-                                    <span className="opacity-70">⚙️</span> Settings
+                                <li className="text-gray-400 text-sm font-bold px-4 py-3 hover:bg-white/5 hover:text-white rounded-xl cursor-pointer transition-colors flex items-center gap-3">
+                                    <span className="opacity-70 text-lg">⚙️</span> Settings
                                 </li>
                             </ul>
-                            <div className="mt-4 pt-4 border-t border-gray-800/50 px-2 flex items-center gap-3">
+                            <div className="mt-6 pt-6 border-t border-white/5 px-2 flex items-center gap-4">
                                 {user ? (
                                     <>
-                                        <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-600 flex items-center justify-center text-xs font-bold ring-2 ring-gray-950">
+                                        <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-600 flex items-center justify-center text-sm font-black ring-2 ring-gray-950 shadow-lg">
                                             {user.email?.[0].toUpperCase()}
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <p className="text-[13px] font-medium text-white truncate">
+                                            <p className="text-sm font-black text-white truncate">
                                                 {user.user_metadata?.full_name || "User"}
                                             </p>
-                                            <p className="text-[11px] text-gray-500 truncate">
+                                            <p className="text-[11px] font-bold text-gray-500 truncate">
                                                 {user.email}
                                             </p>
                                         </div>
@@ -136,28 +136,26 @@ function DashboardLayoutContent({ children }: { children: ReactNode }) {
             {/* Main Content */}
             <div className="flex-1 flex flex-col min-w-0 bg-white">
                 {/* Header */}
-                <header className="h-14 border-b border-gray-100 flex items-center justify-between px-4 lg:px-6 bg-white/80 backdrop-blur-md sticky top-0 z-20">
+                <header className="h-16 border-b border-gray-100 flex items-center justify-between px-6 lg:px-8 bg-white/80 backdrop-blur-md sticky top-0 z-20">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={toggleSidebar}
-                            className="p-2 -ml-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors"
+                            className="p-2 -ml-2 rounded-xl text-gray-400 hover:text-gray-900 hover:bg-gray-50 transition-all font-black"
                         >
                             {isSidebarOpen ? (
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
                             ) : (
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
                             )}
                         </button>
-                        
-                        {/* Breadcrumb or Page Title area could go here */}
                     </div>
 
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-4">
                          <button
                             onClick={() => useAuthStore.getState().signOut()}
-                            className="text-[12px] font-medium text-gray-500 hover:text-red-600 transition-colors px-3 py-1.5 rounded-md hover:bg-red-50"
+                            className="text-xs font-black text-gray-400 hover:text-red-500 transition-all px-4 py-2 rounded-xl hover:bg-red-50 uppercase tracking-widest"
                         >
-                            Sign out
+                            Log Out
                         </button>
                     </div>
                 </header>

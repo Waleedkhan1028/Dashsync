@@ -1,8 +1,8 @@
 import "./globals.css";
 import Providers from "./providers";
-import { Inter } from "next/font/google";
+import { Outfit } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 
 export default function RootLayout({
   children,
@@ -11,7 +11,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} font-sans antialiased text-gray-900 bg-gray-50`}>
+      <body className={`${outfit.variable} font-sans antialiased text-gray-900 bg-gray-50`}>
         <Providers>{children}</Providers>
       </body>
     </html>

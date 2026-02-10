@@ -1,0 +1,53 @@
+[33mcommit 1b58707a389e061ab4f90b385f70043dfadaa47d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: Waleed Khan <waleed1028.dev@gmail.com>
+Date:   Tue Feb 10 21:04:09 2026 +0500
+
+    Responsive fixes
+
+[33mcommit 50c8ef910306f602b4eb45b9427e44d78bddd8a5[m[33m ([m[1;31morigin/main[m[33m)[m
+Author: Waleed Khan <waleed1028.dev@gmail.com>
+Date:   Tue Feb 10 19:28:09 2026 +0500
+
+    Ui Fixes
+
+[33mcommit 88c28f27ed959426a87c83ffb88bdb62402dff9d[m
+Author: Waleed Khan <waleed1028.dev@gmail.com>
+Date:   Tue Feb 10 18:35:05 2026 +0500
+
+    Seprate Socket Server
+
+[33mcommit 07fc5acafa48d7c724b43459f239a86cbb97cbde[m
+Author: Waleed Khan <waleed1028.dev@gmail.com>
+Date:   Tue Feb 10 17:13:28 2026 +0500
+
+    logout fix
+
+[33mcommit 7813b1e1e12857888bf49e6f62cdc6c26cdbad8b[m
+Author: Waleed Khan <waleed1028.dev@gmail.com>
+Date:   Tue Feb 10 17:03:04 2026 +0500
+
+    Page 404 fix
+
+[33mcommit 9192425aff84a0991e8cca5e518cdb841498d043[m
+Author: Waleed Khan <waleed1028.dev@gmail.com>
+Date:   Tue Feb 10 16:46:21 2026 +0500
+
+    fixed type errors
+
+[33mcommit 8fc53cd62863ae0c2ad46f3a1fdfd370c64fa1e7[m
+Author: Waleed Khan <waleed1028.dev@gmail.com>
+Date:   Tue Feb 10 16:11:50 2026 +0500
+
+    fixed lint errors
+
+[33mcommit 31d44a36c01150c5e1d7b5603ddb4aef0deffebe[m
+Author: Waleed Khan <waleed1028.dev@gmail.com>
+Date:   Tue Feb 10 15:53:52 2026 +0500
+
+    initial saas dashboard
+
+[33mcommit d4b8ceb35ad1731c8d4af53e9a547e71545c6f3d[m
+Author: Waleed Khan <waleed1028.dev@gmail.com>
+Date:   Mon Jan 19 19:19:51 2026 +0500
+
+    Initial commit from Create Next App

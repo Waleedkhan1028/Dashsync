@@ -110,7 +110,7 @@ export default function ProjectChat({ projectId }: ProjectChatProps) {
     };
 
     return (
-        <div className="flex flex-col h-full bg-white/40 backdrop-blur-3xl rounded-2xl sm:rounded-[2.5rem] border border-white/40 shadow-[0_30px_60px_rgba(0,0,0,0.05)] overflow-hidden ring-1 ring-white/60">
+        <div className="flex flex-col h-full bg-white/40 backdrop-blur-3xl rounded-2xl sm:rounded-3xl border border-white/40 shadow-premium overflow-hidden ring-1 ring-white/60">
             <header className="p-4 sm:p-6 border-b border-white/20 flex items-center justify-between bg-white/30 backdrop-blur-md">
                 <div className="flex flex-col">
                     <h3 className="font-black text-gray-800 uppercase tracking-widest text-[11px] flex items-center gap-2">
@@ -138,9 +138,9 @@ export default function ProjectChat({ projectId }: ProjectChatProps) {
 
             <div
                 ref={scrollRef}
-                className="flex-1 overflow-y-auto p-6 space-y-8 scroll-smooth"
+                className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 sm:space-y-8 scroll-smooth"
                 style={{
-                    backgroundImage: "radial-gradient(circle at 50% 0%, rgba(255,255,255,0.8) 0%, transparent 70%)"
+                    backgroundImage: "radial-gradient(circle at 50% 0%, rgba(255,255,255,1) 0%, transparent 70%)"
                 }}
             >
                 {isLoading ? (
@@ -163,10 +163,10 @@ export default function ProjectChat({ projectId }: ProjectChatProps) {
                                     className={`flex flex-col ${isMe ? "items-end" : "items-start"} group`}
                                 >
                                     <div className={`
-                                        max-w-[85%] p-5 rounded-[2rem] text-sm leading-relaxed relative overflow-hidden transition-all duration-300
+                                        max-w-[85%] p-4 sm:p-5 rounded-2xl sm:rounded-3xl text-sm leading-relaxed relative overflow-hidden transition-all duration-300
                                         ${isMe
-                                            ? "bg-gradient-to-br from-violet-600 to-indigo-600 text-white rounded-tr-sm shadow-[0_10px_20px_rgba(79,70,229,0.2)]"
-                                            : "bg-white/80 backdrop-blur-md text-gray-700 border border-white/60 rounded-tl-sm shadow-[0_5px_15px_rgba(0,0,0,0.02)]"
+                                            ? "bg-gradient-to-br from-blue-600 to-indigo-600 text-white rounded-tr-none shadow-lg"
+                                            : "bg-white text-gray-700 border border-gray-100 rounded-tl-none shadow-sm"
                                         }
                                     `}>
                                         {/* Glossy overlay effect */}
@@ -192,23 +192,23 @@ export default function ProjectChat({ projectId }: ProjectChatProps) {
                 )}
             </div>
 
-            <div className="p-4 bg-white/30 backdrop-blur-xl border-t border-white/20">
+            <div className="p-4 bg-white/50 backdrop-blur-xl border-t border-gray-100">
                 <form onSubmit={handleSend} className="relative flex items-center group">
-                    <div className="absolute inset-0 bg-white/40 backdrop-blur-2xl rounded-[2rem] shadow-sm border border-white/50 transition-all duration-300 group-focus-within:bg-white/60 group-focus-within:shadow-md group-focus-within:border-blue-200/50" />
+                    <div className="absolute inset-0 bg-white/40 backdrop-blur-2xl rounded-2xl shadow-sm border border-gray-100 transition-all duration-300 group-focus-within:bg-white/60 group-focus-within:shadow-md group-focus-within:border-blue-200/50" />
                     
                     <input
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         placeholder="Type a message..."
-                        className="w-full pl-8 pr-20 py-5 bg-transparent relative z-10 outline-none font-bold text-gray-800 placeholder:text-gray-400 text-sm"
+                        className="w-full pl-6 sm:pl-8 pr-16 sm:pr-20 py-4 sm:py-5 bg-transparent relative z-10 outline-none font-bold text-gray-800 placeholder:text-gray-400 text-sm"
                     />
                     
                     <div className="absolute right-2 z-20">
                         <button
                             disabled={!message.trim() || sendMutation.isPending}
-                            className="w-12 h-12 bg-gradient-to-tr from-gray-900 to-gray-800 text-white rounded-[1.5rem] flex items-center justify-center hover:scale-110 active:scale-95 transition-all disabled:opacity-0 disabled:scale-50 shadow-lg shadow-gray-900/20"
+                            className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-950 text-white rounded-xl sm:rounded-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all disabled:opacity-0 disabled:scale-50 shadow-lg"
                         >
-                            <span className="text-lg translate-x-0.5 -translate-y-0.5">↑</span>
+                            <span className="text-xl">↑</span>
                         </button>
                     </div>
                 </form>

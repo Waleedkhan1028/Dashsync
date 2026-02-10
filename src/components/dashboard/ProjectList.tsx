@@ -32,7 +32,7 @@ export function ProjectList({ projects, isLoading, searchQuery, onEdit, onDelete
                     action={
                         <button
                             onClick={onClearSearch}
-                            className="text-blue-600 font-bold hover:text-blue-700 transition-colors text-sm sm:text-base"
+                            className="text-blue-600 font-bold hover:text-blue-700 transition-colors text-sm sm:text-base font-sans"
                         >
                             Clear Search
                         </button>
@@ -49,7 +49,7 @@ export function ProjectList({ projects, isLoading, searchQuery, onEdit, onDelete
                 action={
                     <button
                         onClick={onCreateFirst}
-                        className="bg-blue-600 text-white px-8 sm:px-10 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-black hover:bg-blue-700 transition-all shadow-xl shadow-blue-100 text-sm sm:text-base w-full sm:w-auto"
+                        className="bg-blue-600 text-white px-8 sm:px-10 py-4 sm:py-5 rounded-xl sm:rounded-2xl font-black hover:bg-blue-700 transition-all shadow-premium text-sm sm:text-base w-full sm:w-auto"
                     >
                         Start First Project
                     </button>

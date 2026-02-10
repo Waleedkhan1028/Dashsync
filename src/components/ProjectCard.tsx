@@ -17,25 +17,25 @@ export default function ProjectCard({ id, name, taskCount = 0, onEdit, onDelete 
 
     return (
         <motion.div
-            whileHover={{ y: -5, scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={{ y: -5, scale: 1.01 }}
+            whileTap={{ scale: 0.99 }}
             className="h-full relative"
         >
             <Link href={`/dashboard/projects/${id}`} className="block h-full no-underline">
-                <div className="bg-white border border-gray-100 rounded-[2rem] p-8 h-full transition-all duration-300 hover:border-blue-500/30 hover:shadow-[0_20px_50px_-10px_rgba(0,0,0,0.05)] flex flex-col group relative overflow-hidden">
+                <div className="bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-6 sm:p-8 h-full transition-all duration-300 hover:border-blue-500/30 hover:shadow-premium flex flex-col group relative overflow-hidden">
                     {/* Background decoration */}
                     <div className="absolute top-0 right-0 w-24 h-24 bg-blue-50/50 rounded-full blur-3xl -mr-10 -mt-10 group-hover:bg-blue-100/50 transition-colors" />
 
-                    <div className="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center text-2xl mb-6 shadow-sm group-hover:scale-110 transition-transform duration-300">
+                    <div className="w-12 h-12 rounded-xl sm:rounded-2xl bg-blue-50 flex items-center justify-center text-2xl mb-6 shadow-sm group-hover:scale-110 transition-transform duration-300">
                         📁
                     </div>
 
-                    <h3 className="text-xl font-black text-gray-900 mb-4 tracking-tight leading-tight group-hover:text-blue-600 transition-colors">
+                    <h3 className="text-xl sm:text-2xl font-black text-gray-900 mb-4 tracking-tight leading-tight group-hover:text-blue-600 transition-colors">
                         {name}
                     </h3>
 
                     <div className="mt-auto flex items-center justify-between">
-                        <div className="flex items-center gap-2 text-gray-400 font-bold text-xs uppercase tracking-widest">
+                        <div className="flex items-center gap-2 text-gray-400 font-bold text-[10px] sm:text-xs uppercase tracking-widest">
                             <span className="text-blue-400">📋</span>
                             <span>{taskCount} {taskCount === 1 ? 'task' : 'tasks'}</span>
                         </div>
@@ -55,7 +55,7 @@ export default function ProjectCard({ id, name, taskCount = 0, onEdit, onDelete 
                             e.stopPropagation();
                             setShowMenu(!showMenu);
                         }}
-                        className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/80 backdrop-blur-sm hover:bg-white border border-gray-100 text-gray-400 hover:text-gray-900 transition-all font-black text-lg shadow-lg"
+                        className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg sm:rounded-xl bg-white/80 backdrop-blur-sm hover:bg-white border border-gray-100 text-gray-400 hover:text-gray-900 transition-all font-black text-lg shadow-lg"
                     >
                         ⋮
                     </button>
@@ -73,7 +73,7 @@ export default function ProjectCard({ id, name, taskCount = 0, onEdit, onDelete 
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.95, y: -10 }}
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                                className="absolute right-0 top-full mt-2 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-20 min-w-[180px]"
+                                className="absolute right-0 top-full mt-2 bg-white rounded-xl sm:rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-20 min-w-[160px] sm:min-w-[180px] origin-top-right"
                             >
                                 {onEdit && (
                                     <button
