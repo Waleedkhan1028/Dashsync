@@ -162,7 +162,7 @@ export default function DashboardPage() {
     }
 
     return (
-        <div className="p-8 lg:p-12 max-w-7xl mx-auto min-h-full">
+        <div className="p-4 sm:p-6 lg:p-12 max-w-7xl mx-auto min-h-full">
             <DashboardHeader 
                 workspace={currentWorkspace} 
                 onCreateProject={() => setIsProjectModalOpen(true)} 
@@ -170,15 +170,17 @@ export default function DashboardPage() {
             />
 
             {selectedWorkspaceId || isPageLoading ? (
-                <div className="space-y-10">
+                <div className="space-y-6 lg:space-y-10 mt-6 lg:mt-8">
                     {/* Search Bar */}
                     {(isPageLoading || (projects && projects.length > 0)) && (
-                        <SearchBar 
-                            value={searchQuery}
-                            onChange={setSearchQuery}
-                            placeholder="Search projects by name..."
-                            className="max-w-2xl"
-                        />
+                        <div className="w-full">
+                            <SearchBar 
+                                value={searchQuery}
+                                onChange={setSearchQuery}
+                                placeholder="Search projects by name..."
+                                className="max-w-full lg:max-w-2xl"
+                            />
+                        </div>
                     )}
 
                     <ProjectList 
@@ -192,15 +194,13 @@ export default function DashboardPage() {
                     />
                 </div>
             ) : (
-                <div className="text-center py-32 px-10 rounded-[3rem] bg-gray-50/50 border-4 border-dashed border-gray-200/50">
-                    <div className="text-8xl mb-10 opacity-20 grayscale">📂</div>
-                    <h2 className="text-2xl font-black text-gray-300 tracking-tight">Select a workspace from the sidebar</h2>
-                    <p className="text-gray-400 mt-4 font-bold text-sm uppercase tracking-widest">Awaiting interaction</p>
+                <div className="text-center py-20 sm:py-32 px-6 sm:px-10 rounded-2xl sm:rounded-[3rem] bg-gray-50/50 border-2 sm:border-4 border-dashed border-gray-200/50 mt-6">
+                    <div className="text-6xl sm:text-8xl mb-6 sm:mb-10 opacity-20 grayscale">📂</div>
+                    <h2 className="text-xl sm:text-2xl font-black text-gray-300 tracking-tight px-4">Select a workspace from the sidebar</h2>
+                    <p className="text-gray-400 mt-3 sm:mt-4 font-bold text-xs sm:text-sm uppercase tracking-widest">Awaiting interaction</p>
                 </div>
             )}
             
-            {/* Modals ... */}
-
             {/* Modals */}
             <AnimatePresence>
                 <CreateProjectModal

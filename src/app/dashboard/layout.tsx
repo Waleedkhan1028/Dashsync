@@ -34,7 +34,20 @@ function DashboardLayoutContent({ children }: { children: ReactNode }) {
     };
 
     return (
-        <div className="flex min-h-screen bg-[#F9FAFB]"> {/* Cleaner background hex */}
+        <div className="flex min-h-screen bg-[#F9FAFB]">
+            {/* Mobile Backdrop Overlay */}
+            <AnimatePresence>
+                {isSidebarOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={toggleSidebar}
+                        className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+                    />
+                )}
+            </AnimatePresence>
+
             {/* Sidebar */}
             <AnimatePresence mode="wait">
                 {isSidebarOpen && (
@@ -42,8 +55,8 @@ function DashboardLayoutContent({ children }: { children: ReactNode }) {
                         initial={{ x: -260 }}
                         animate={{ x: 0 }}
                         exit={{ x: -260 }}
-                        transition={{ type: "spring", damping: 24, stiffness: 180 }} /* Snappier animation */
-                        className="w-[250px] bg-gray-900 text-white flex flex-col border-r border-gray-800/50 z-30 shadow-2xl"
+                        transition={{ type: "spring", damping: 24, stiffness: 180 }}
+                        className="fixed lg:relative w-[250px] h-screen bg-gray-900 text-white flex flex-col border-r border-gray-800/50 z-50 shadow-2xl"
                     >
                         <div className="p-4 border-b border-gray-800/50 flex items-center gap-3">
                             <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/20">
@@ -123,7 +136,7 @@ function DashboardLayoutContent({ children }: { children: ReactNode }) {
             {/* Main Content */}
             <div className="flex-1 flex flex-col min-w-0 bg-white">
                 {/* Header */}
-                <header className="h-14 border-b border-gray-100 flex items-center justify-between px-6 bg-white/80 backdrop-blur-md sticky top-0 z-20">
+                <header className="h-14 border-b border-gray-100 flex items-center justify-between px-4 lg:px-6 bg-white/80 backdrop-blur-md sticky top-0 z-20">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={toggleSidebar}

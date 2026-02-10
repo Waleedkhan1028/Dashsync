@@ -110,8 +110,8 @@ export default function ProjectChat({ projectId }: ProjectChatProps) {
     };
 
     return (
-        <div className="flex flex-col h-full bg-white/40 backdrop-blur-3xl rounded-[2.5rem] border border-white/40 shadow-[0_30px_60px_rgba(0,0,0,0.05)] overflow-hidden ring-1 ring-white/60">
-            <header className="p-6 border-b border-white/20 flex items-center justify-between bg-white/30 backdrop-blur-md">
+        <div className="flex flex-col h-full bg-white/40 backdrop-blur-3xl rounded-2xl sm:rounded-[2.5rem] border border-white/40 shadow-[0_30px_60px_rgba(0,0,0,0.05)] overflow-hidden ring-1 ring-white/60">
+            <header className="p-4 sm:p-6 border-b border-white/20 flex items-center justify-between bg-white/30 backdrop-blur-md">
                 <div className="flex flex-col">
                     <h3 className="font-black text-gray-800 uppercase tracking-widest text-[11px] flex items-center gap-2">
                         <span className="text-xl filter drop-shadow-sm">💬</span> 
