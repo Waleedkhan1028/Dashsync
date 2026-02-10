@@ -4,8 +4,9 @@ const http = require("http");
 const server = http.createServer();
 const io = new Server(server, {
     cors: {
-        origin: "*", // Allow all origins for dev simplicity
-        methods: ["GET", "POST"]
+        origin: process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(",") : "*",
+        methods: ["GET", "POST"],
+        credentials: true
     }
 });
 
@@ -20,8 +21,7 @@ io.on("connection", (socket) => {
     socket.on("send-comment", (data) => {
         // data: { projectId, comment }
         console.log(`Project ${data.projectId}: New comment from ${data.comment.user_email}`);
-        // Broadcast to everyone in the room INCLUDING the sender (or use optimistic UI)
-        // Here we broadcast to everyone in the room
+        // Broadcast to everyone in the room INCLUDING the sender
         io.to(data.projectId).emit("new-comment", data.comment);
     });
 
@@ -30,7 +30,7 @@ io.on("connection", (socket) => {
     });
 });
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
     console.log(`Socket.io server running on port ${PORT}`);
 });
