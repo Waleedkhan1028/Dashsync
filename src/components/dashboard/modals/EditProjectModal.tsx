@@ -14,11 +14,11 @@ interface EditProjectModalProps {
     onClose: () => void;
     onSubmit: (id: string, projectName: string) => Promise<void>;
     isLoading: boolean;
-    error: any;
+    error: Error | null;
 }
 
 export function EditProjectModal({ project, onClose, onSubmit, isLoading, error }: EditProjectModalProps) {
-    const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm({
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm({
         resolver: yupResolver(projectSchema),
     });
 

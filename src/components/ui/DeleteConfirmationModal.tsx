@@ -43,7 +43,7 @@ export default function DeleteConfirmationModal({
                         <div className="flex-1">
                             <p className="font-bold text-gray-900 mb-2">
                                 Are you sure you want to delete{" "}
-                                <span className="text-red-600">"{itemName}"</span>?
+                                <span className="text-red-600">&quot;{itemName}&quot;</span>?
                             </p>
                             <p className="text-sm text-gray-600 font-medium">
                                 {getCascadeMessage()}

@@ -7,7 +7,7 @@ type AnalyticsEvent =
   // Authentication events
   | { name: 'user_signup'; properties: { method: string } }
   | { name: 'user_login'; properties: { method: string } }
-  | { name: 'user_logout'; properties: {} }
+  | { name: 'user_logout'; properties: Record<string, never> }
   // Workspace events
   | { name: 'workspace_created'; properties: { workspaceId: string } }
   | { name: 'workspace_updated'; properties: { workspaceId: string } }
@@ -115,7 +115,7 @@ class Analytics {
   /**
    * Identify a user
    */
-  identify(userId: string, traits?: Record<string, any>): void {
+  identify(userId: string, traits?: Record<string, unknown>): void {
     if (!this.enabled) {
       if (process.env.NODE_ENV === 'development') {
         console.log('📊 Identify User:', userId, traits);
@@ -132,4 +132,4 @@ export const analytics = new Analytics();
 // Convenience functions
 export const trackEvent = (event: AnalyticsEvent) => analytics.track(event);
 export const trackPageView = (path: string) => analytics.pageView(path);
-export const identifyUser = (userId: string, traits?: Record<string, any>) => analytics.identify(userId, traits);
+export const identifyUser = (userId: string, traits?: Record<string, unknown>) => analytics.identify(userId, traits);
