@@ -1,14 +1,14 @@
 import { create } from "zustand";
 import { supabase } from "@/lib/supabase";
-import { User } from "@supabase/supabase-js";
+import { User, AuthError } from "@supabase/supabase-js";
 
 type AuthState = {
     user: User | null;
     isLoading: boolean;
     setUser: (user: User | null) => void;
     checkAuth: () => Promise<void>;
-    signIn: (credentials: { email: string; password: string }) => Promise<{ error: any }>;
-    signUp: (credentials: { email: string; password: string; name: string }) => Promise<{ error: any }>;
+    signIn: (credentials: { email: string; password: string }) => Promise<{ error: AuthError | null }>;
+    signUp: (credentials: { email: string; password: string; name: string }) => Promise<{ error: AuthError | null }>;
     signOut: () => Promise<void>;
 };
 
