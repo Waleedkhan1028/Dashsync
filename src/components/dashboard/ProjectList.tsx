@@ -1,5 +1,5 @@
 import { Project } from "@/types/database";
-import ProjectCard from "@/components/ProjectCard";
+import ProjectCard from "@/components/projects/ProjectCard";
 import { motion } from "framer-motion";
 import EmptyState from "@/components/ui/EmptyState";
 

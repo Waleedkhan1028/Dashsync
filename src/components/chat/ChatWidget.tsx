@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import ProjectChat from "@/components/ProjectChat";
+import ProjectChat from "@/components/chat/ProjectChat";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function ChatWidget({ projectId }: { projectId: string }) {
