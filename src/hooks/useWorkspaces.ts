@@ -26,12 +26,24 @@ export function useWorkspaces() {
         },
     });
 
+    const deleteWorkspaceMutation = useMutation({
+        mutationFn: (workspaceId: string) =>
+            fetcher(`/api/workspaces/${workspaceId}`, { method: "DELETE" }),
+        onSuccess: () => {
+            // Refresh the workspace list after deletion
+            queryClient.invalidateQueries({ queryKey: ["workspaces"] });
+        },
+    });
+
     return {
         workspaces,
         isLoading,
         error,
-        createWorkspace: createWorkspaceMutation.mutateAsync, // Expose as async for flexibility
+        createWorkspace: createWorkspaceMutation.mutateAsync,
         isCreating: createWorkspaceMutation.isPending,
         createError: createWorkspaceMutation.error,
+        deleteWorkspace: deleteWorkspaceMutation.mutateAsync,
+        isDeleting: deleteWorkspaceMutation.isPending,
+        deleteError: deleteWorkspaceMutation.error,
     };
 }

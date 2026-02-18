@@ -1,53 +1,66 @@
 "use client";
 
-import { useAuthStore } from "@/stores/auth.store";
-import { Project } from "@/types/database";
+// ─── React & Next ─────────────────────────────────────────────────────────────
 import { useState, useMemo } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import SearchBar from "@/components/ui/SearchBar";
-import DeleteConfirmationModal from "@/components/ui/DeleteConfirmationModal";
-import { useDebounce } from "@/hooks/useDebounce";
 
+// ─── Stores & Hooks ───────────────────────────────────────────────────────────
+import { useAuthStore } from "@/stores/auth.store";
 import { useWorkspaces } from "@/hooks/useWorkspaces";
 import { useProjects } from "@/hooks/useProjects";
+import { useDebounce } from "@/hooks/useDebounce";
 
+// ─── Types ────────────────────────────────────────────────────────────────────
+import { Project } from "@/types/database";
+
+// ─── UI Components ────────────────────────────────────────────────────────────
+import SearchBar from "@/components/ui/SearchBar";
+import DeleteConfirmationModal from "@/components/ui/DeleteConfirmationModal";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { ProjectList } from "@/components/dashboard/ProjectList";
 import { CreateWorkspaceModal } from "@/components/dashboard/modals/CreateWorkspaceModal";
 import { CreateProjectModal } from "@/components/dashboard/modals/CreateProjectModal";
 import { EditProjectModal } from "@/components/dashboard/modals/EditProjectModal";
 
+// ─────────────────────────────────────────────────────────────────────────────
+
 export default function DashboardPage() {
-    const authLoading = useAuthStore((s) => s.isLoading);
+    // ── Router & URL params ──────────────────────────────────────────────────
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
-    const [isWsModalOpen, setIsWsModalOpen] = useState(false);
+    const selectedWorkspaceId = searchParams.get("workspaceId");
+    const showNewWsModal      = searchParams.get("newWorkspace") === "true";
+    const deleteWorkspaceId   = searchParams.get("deleteWorkspaceId"); // set by sidebar trash icon
+
+    // ── Local state ──────────────────────────────────────────────────────────
+    const [isWsModalOpen,      setIsWsModalOpen]      = useState(false);
     const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
-    const [searchQuery, setSearchQuery] = useState("");
-    const [editingProject, setEditingProject] = useState<Project | null>(null);
-    const [deletingProject, setDeletingProject] = useState<Project | null>(null);
+    const [searchQuery,        setSearchQuery]        = useState("");
+    const [editingProject,     setEditingProject]     = useState<Project | null>(null);
+    const [deletingProject,    setDeletingProject]    = useState<Project | null>(null);
 
     const debouncedSearch = useDebounce(searchQuery, 300);
 
-    const selectedWorkspaceId = searchParams.get("workspaceId");
-    const showNewWsModal = searchParams.get("newWorkspace") === "true";
+    // ── Data hooks ───────────────────────────────────────────────────────────
+    const authLoading = useAuthStore((s) => s.isLoading);
 
-    // Hooks
-    const { 
-        workspaces, 
-        isLoading: isLoadingWs, 
-        error: wsError,
+    const {
+        workspaces,
+        isLoading: isLoadingWs,
+        error:     wsError,
         createWorkspace,
+        deleteWorkspace,
+        isDeleting: isDeletingWs,
         isCreating: isCreatingWs,
-        createError: createWsError
+        createError: createWsError,
     } = useWorkspaces();
 
-    const { 
-        projects, 
-        isLoading: isLoadingProj, 
+    const {
+        projects,
+        isLoading: isLoadingProj,
         createProject,
         updateProject,
         deleteProject,
@@ -55,20 +68,31 @@ export default function DashboardPage() {
         isUpdating: isUpdatingProj,
         isDeleting: isDeletingProj,
         createError: createProjError,
-        updateError: updateProjError
+        updateError: updateProjError,
     } = useProjects(selectedWorkspaceId);
 
-    const currentWorkspace = workspaces?.find(w => w.id === selectedWorkspaceId);
+    // ── Derived values ───────────────────────────────────────────────────────
+    const isPageLoading    = authLoading || isLoadingWs;
+    const currentWorkspace = workspaces?.find((w) => w.id === selectedWorkspaceId);
+    const workspaceToDelete = workspaces?.find((w) => w.id === deleteWorkspaceId);
 
-    // Filter projects based on search
     const filteredProjects = useMemo(() => {
         if (!projects) return [];
         if (!debouncedSearch.trim()) return projects;
-        return projects.filter(p => 
+        return projects.filter((p) =>
             p.name.toLowerCase().includes(debouncedSearch.toLowerCase())
         );
     }, [projects, debouncedSearch]);
 
+    // ── URL helpers ──────────────────────────────────────────────────────────
+    /** Returns a new URLSearchParams with the given keys deleted. */
+    const buildParams = (...keysToDelete: string[]) => {
+        const params = new URLSearchParams(searchParams.toString());
+        keysToDelete.forEach((k) => params.delete(k));
+        return params;
+    };
+
+    // ── Workspace handlers ───────────────────────────────────────────────────
     const handleCreateWorkspace = async (workspaceName: string) => {
         const newWs = await createWorkspace(workspaceName);
         setIsWsModalOpen(false);
@@ -78,6 +102,19 @@ export default function DashboardPage() {
         router.push(`${pathname}?${params.toString()}`);
     };
 
+    const handleDeleteWorkspace = async () => {
+        if (!workspaceToDelete) return;
+        await deleteWorkspace(workspaceToDelete.id);
+        router.push(`${pathname}?${buildParams("workspaceId", "deleteWorkspaceId").toString()}`);
+    };
+
+    const closeWsModal = () =>
+        router.push(`${pathname}?${buildParams("newWorkspace").toString()}`);
+
+    const closeDeleteWsModal = () =>
+        router.push(`${pathname}?${buildParams("deleteWorkspaceId").toString()}`);
+
+    // ── Project handlers ─────────────────────────────────────────────────────
     const handleCreateProject = async (projectName: string) => {
         await createProject({ projectName });
         setIsProjectModalOpen(false);
@@ -89,22 +126,12 @@ export default function DashboardPage() {
     };
 
     const handleDeleteProject = async () => {
-        if (deletingProject) {
-            await deleteProject(deletingProject.id);
-            setDeletingProject(null);
-        }
+        if (!deletingProject) return;
+        await deleteProject(deletingProject.id);
+        setDeletingProject(null);
     };
 
-    const closeWsModal = () => {
-        setIsWsModalOpen(false);
-        const params = new URLSearchParams(searchParams.toString());
-        params.delete("newWorkspace");
-        router.push(`${pathname}?${params.toString()}`);
-    };
-
-    // Non-blocking loading state (optional: you could keep a small top loader)
-    const isPageLoading = authLoading || isLoadingWs;
-
+    // ── Early returns ────────────────────────────────────────────────────────
     if (wsError) {
         return (
             <div className="p-10 text-center flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] max-w-xl mx-auto">
@@ -126,7 +153,6 @@ export default function DashboardPage() {
     if (!isPageLoading && (!workspaces || workspaces.length === 0)) {
         return (
             <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-gradient-to-tr from-gray-50 to-blue-50/50 p-8">
-                {/* ... existing empty state content ... */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -139,7 +165,6 @@ export default function DashboardPage() {
                     <p className="text-xl text-gray-600 mb-10 leading-relaxed font-medium">
                         Welcome to DashSync. Create your first workspace to start collaborating and managing projects with premium clarity.
                     </p>
-                    {/* ... */}
                     <button
                         onClick={() => setIsWsModalOpen(true)}
                         className="bg-blue-600 text-white px-10 py-5 rounded-[2rem] text-xl font-black shadow-2xl shadow-blue-500/30 hover:scale-[1.03] active:scale-[0.97] transition-all"
@@ -161,20 +186,20 @@ export default function DashboardPage() {
         );
     }
 
+    // ── Main render ──────────────────────────────────────────────────────────
     return (
         <div className="p-4 sm:p-6 lg:p-12 max-w-7xl mx-auto min-h-full">
-            <DashboardHeader 
-                workspace={currentWorkspace} 
-                onCreateProject={() => setIsProjectModalOpen(true)} 
+            <DashboardHeader
+                workspace={currentWorkspace}
+                onCreateProject={() => setIsProjectModalOpen(true)}
                 isLoading={isPageLoading}
             />
 
             {selectedWorkspaceId || isPageLoading ? (
                 <div className="space-y-6 lg:space-y-10 mt-6 lg:mt-8">
-                    {/* Search Bar */}
                     {(isPageLoading || (projects && projects.length > 0)) && (
                         <div className="w-full">
-                            <SearchBar 
+                            <SearchBar
                                 value={searchQuery}
                                 onChange={setSearchQuery}
                                 placeholder="Search projects by name..."
@@ -183,7 +208,7 @@ export default function DashboardPage() {
                         </div>
                     )}
 
-                    <ProjectList 
+                    <ProjectList
                         projects={filteredProjects}
                         isLoading={isLoadingProj || (isPageLoading && !projects)}
                         searchQuery={searchQuery}
@@ -200,9 +225,17 @@ export default function DashboardPage() {
                     <p className="text-gray-400 mt-3 sm:mt-4 font-bold text-xs sm:text-sm uppercase tracking-widest">Awaiting interaction</p>
                 </div>
             )}
-            
+
             {/* Modals */}
             <AnimatePresence>
+                <CreateWorkspaceModal
+                    isOpen={isWsModalOpen || showNewWsModal}
+                    onClose={closeWsModal}
+                    onSubmit={handleCreateWorkspace}
+                    isLoading={isCreatingWs}
+                    error={createWsError}
+                />
+
                 <CreateProjectModal
                     isOpen={isProjectModalOpen}
                     onClose={() => setIsProjectModalOpen(false)}
@@ -210,14 +243,6 @@ export default function DashboardPage() {
                     isLoading={isCreatingProj}
                     error={createProjError}
                     workspaceName={currentWorkspace?.name}
-                />
-
-                <CreateWorkspaceModal
-                    isOpen={isWsModalOpen || showNewWsModal}
-                    onClose={closeWsModal}
-                    onSubmit={handleCreateWorkspace}
-                    isLoading={isCreatingWs}
-                    error={createWsError}
                 />
 
                 <EditProjectModal
@@ -238,6 +263,19 @@ export default function DashboardPage() {
                         itemType="project"
                         isDeleting={isDeletingProj}
                         cascadeWarning="All tasks within this project will also be deleted."
+                    />
+                )}
+
+                {workspaceToDelete && (
+                    <DeleteConfirmationModal
+                        isOpen={true}
+                        onClose={closeDeleteWsModal}
+                        onConfirm={handleDeleteWorkspace}
+                        title="Delete Workspace"
+                        itemName={workspaceToDelete.name}
+                        itemType="workspace"
+                        isDeleting={isDeletingWs}
+                        cascadeWarning="All projects and tasks inside this workspace will also be permanently deleted."
                     />
                 )}
             </AnimatePresence>

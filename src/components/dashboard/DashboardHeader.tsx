@@ -43,3 +43,4 @@ export function DashboardHeader({ workspace, onCreateProject, isLoading }: Dashb
         </header>
     );
 }
+

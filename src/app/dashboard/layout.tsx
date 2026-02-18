@@ -9,7 +9,11 @@ import { Workspace } from "@/types/database";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
-function DashboardLayoutContent({ children }: { children: ReactNode }) {
+function DashboardLayoutContent({
+    children,
+}: {
+    children: ReactNode;
+}) {
     const isSidebarOpen = useUIStore((s) => s.isSidebarOpen);
     const toggleSidebar = useUIStore((s) => s.toggleSidebar);
     const user = useAuthStore((s) => s.user);
@@ -30,6 +34,13 @@ function DashboardLayoutContent({ children }: { children: ReactNode }) {
         } else {
             params.delete("workspaceId");
         }
+        router.push(`/dashboard?${params.toString()}`);
+    };
+
+    // Signals the dashboard page to open the delete confirmation modal
+    const handleDeleteWorkspaceClick = (wsId: string) => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.set("deleteWorkspaceId", wsId);
         router.push(`/dashboard?${params.toString()}`);
     };
 
@@ -73,16 +84,33 @@ function DashboardLayoutContent({ children }: { children: ReactNode }) {
                             </p>
                             <ul className="flex flex-col gap-1 list-none p-0">
                                 {workspaces?.map((ws) => (
-                                    <li key={ws.id}>
+                                    <li key={ws.id} className="group/ws relative">
                                         <button
                                             onClick={() => handleWorkspaceChange(ws.id)}
-                                            className={`w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-all duration-200 flex items-center gap-3 ${selectedWorkspaceId === ws.id
+                                            className={`w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-all duration-200 flex items-center gap-3 pr-10 ${selectedWorkspaceId === ws.id
                                                 ? "bg-white/10 text-white shadow-sm ring-1 ring-white/10"
                                                 : "text-gray-400 hover:bg-white/5 hover:text-gray-200"
                                                 }`}
                                         >
                                             <span className="text-gray-600 font-black">#</span>
                                             <span className="truncate">{ws.name}</span>
+                                        </button>
+
+                                        {/* Delete button — appears on row hover */}
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleDeleteWorkspaceClick(ws.id);
+                                            }}
+                                            title={`Delete "${ws.name}"`}
+                                            className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-lg text-gray-600 hover:text-red-400 hover:bg-red-500/10 transition-all opacity-0 group-hover/ws:opacity-100 focus:opacity-100"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                                <polyline points="3 6 5 6 21 6" />
+                                                <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                                                <path d="M10 11v6M14 11v6" />
+                                                <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                                            </svg>
                                         </button>
                                     </li>
                                 ))}
@@ -182,3 +210,5 @@ export default function DashboardLayout({
         </Suspense>
     );
 }
+
+
