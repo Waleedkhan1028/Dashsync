@@ -96,14 +96,14 @@ function DashboardLayoutContent({
                                             <span className="truncate">{ws.name}</span>
                                         </button>
 
-                                        {/* Delete button — appears on row hover */}
+                                        {/* Delete button — hover-reveal on desktop, always visible on mobile */}
                                         <button
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 handleDeleteWorkspaceClick(ws.id);
                                             }}
                                             title={`Delete "${ws.name}"`}
-                                            className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-lg text-gray-600 hover:text-red-400 hover:bg-red-500/10 transition-all opacity-0 group-hover/ws:opacity-100 focus:opacity-100"
+                                            className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-lg text-gray-600 hover:text-red-400 hover:bg-red-500/10 active:bg-red-500/20 active:text-red-400 transition-all opacity-0 group-hover/ws:opacity-100 focus:opacity-100 [@media(hover:none)]:opacity-40 [@media(hover:none)]:group-hover/ws:opacity-100"
                                         >
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                                 <polyline points="3 6 5 6 21 6" />
